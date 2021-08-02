@@ -65,3 +65,24 @@ We will se something like this:
 $ curl -X POST -H "Content-Type: application/json" -d '{"msg": "hello world"}' localhost:8080
 78
 ```
+
+## Push image
+
+
+1. Make sure, that aws cli tool is installed
+2. Login into AWS ECR
+    ```bash
+    aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com
+    ``` 
+3. Create repository
+    ```bash
+    aws ecr create-repository --repository-name cortex-bandit
+    ```
+3. Tag image
+    ```bash
+    docker tag cortex-bandit:model-a <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-a
+    ```
+4. Push it
+    ```bash
+    docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-a
+    ```

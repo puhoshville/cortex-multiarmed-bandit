@@ -1,14 +1,16 @@
 - name: model-a
   kind: RealtimeAPI
-  predictor:
-    type: python
-    path: model_a.py
+  pod:
+    containers:
+    - name: api
+      image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-a
 
-- name: model-b
+- name: model-a
   kind: RealtimeAPI
-  predictor:
-    type: python
-    path: model_b.py
+  pod:
+    containers:
+    - name: api
+      image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-b
 
 - name: multiarmed-bandit
   kind: TrafficSplitter
