@@ -9,9 +9,10 @@ Serving ML models in high-load manner with cortex and traffic splitter
 
 ```bash
 # install the CLI
-bash -c "$(curl -sS https://raw.githubusercontent.com/cortexlabs/cortex/v0.39.1/get-cli.sh)"
-
+bash -c "$(curl -sS https://raw.githubusercontent.com/cortexlabs/cortex/v0.39.1/get-cli.sh)
 ```
+
+!More actual information you can find here: https://docs.cortex.dev
 
 ## 2. Setup cluster 
 
