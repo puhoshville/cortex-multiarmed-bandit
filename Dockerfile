@@ -1,7 +1,7 @@
 FROM python:3.9-slim AS base
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install --no-cache-dir requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Model A serving
 FROM base AS model-a
