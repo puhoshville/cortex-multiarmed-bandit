@@ -9,10 +9,10 @@ Serving ML models in high-load manner with cortex and traffic splitter
 
 ```bash
 # install the CLI
-bash -c "$(curl -sS https://raw.githubusercontent.com/cortexlabs/cortex/v0.39.1/get-cli.sh)
+pip install cortex
 ```
 
-!More actual information you can find here: https://docs.cortex.dev
+! More actual information you can find here: https://docs.cortex.dev
 
 ## 2. Setup cluster 
 
@@ -40,12 +40,12 @@ This images use the base, but serves different models.
 
 For building Model A:
 ```bash
-docker build . --target model-b -t cortex-bandit:model-a
+docker build . --target model-a -t cortex-bandit:model-a
 ```
 
 For building Model B:
 ```bash
-docker build . --target model-b -t cortex-bandit:model-a
+docker build . --target model-b -t cortex-bandit:model-b
 ```
 
 ## Check images
@@ -74,7 +74,7 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"msg": "hello world"}' l
     ```bash
     aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com
     ``` 
-3. Create repository
+3. Create repository (needed only once)
     ```bash
     aws ecr create-repository --repository-name cortex-bandit
     ```
