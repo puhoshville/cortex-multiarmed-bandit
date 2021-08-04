@@ -16,3 +16,7 @@ def recommend(data: Data):
     """Returns random negative integers"""
     print(f"Model B. Input object {data}")
     return -random.randint(0, 100)
+
+@app.get("/ping")
+def pong():
+    return "OK"
