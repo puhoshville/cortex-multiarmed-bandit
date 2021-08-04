@@ -17,6 +17,7 @@ def recommend(data: Data):
     print(f"Model A. Input object {data}")
     return random.randint(0, 100)
 
+
 @app.get("/ping")
 def pong():
     return "OK"
