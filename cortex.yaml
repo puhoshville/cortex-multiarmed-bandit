@@ -1,0 +1,19 @@
+- name: model-a
+  kind: RealtimeAPI
+  predictor:
+    type: python
+    path: model_a.py
+
+- name: model-b
+  kind: RealtimeAPI
+  predictor:
+    type: python
+    path: model_b.py
+
+- name: multiarmed-bandit
+  kind: TrafficSplitter
+  apis:
+    - name: model-a
+      weight: 30
+    - name: model-b
+      weight: 70
