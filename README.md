@@ -26,6 +26,8 @@ For more information read [this](https://docs.aws.amazon.com/cli/latest/userguid
 
 ![](https://camo.githubusercontent.com/a3ff7c310843424f737883e5f09cccd00f156fcc2f247b0abb438ea8c02b476c/68747470733a2f2f73332d75732d776573742d322e616d617a6f6e6177732e636f6d2f636f727465782d7075626c69632f6c6f676f2e706e67)
 
+We have to install cortex explicitly through pip! No go-binary installation! 
+
 ```bash
 # install the CLI
 pip install cortex
@@ -93,11 +95,69 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"msg": "hello world"}' l
     ```bash
     aws ecr create-repository --repository-name cortex-bandit
     ```
-3. Tag image
+3. Tag images
     ```bash
     docker tag cortex-bandit:model-a <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-a
+    docker tag cortex-bandit:model-b <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-b
     ```
 4. Push it
     ```bash
     docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-a
+    docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-b
     ```
+
+Specify links `<AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-a` and 
+`<AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-b` in `cortex.yaml` 
+
+! If you are using Apple M1 core, please use this command to build and push docker images:
+```bash
+docker buildx build --platform linux/amd64  . --target model-a --push -t 385626522460.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-a
+docker buildx build --platform linux/amd64  . --target model-b --push -t 385626522460.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-b
+```
+
+## Run cluster
+
+In `cluster.yaml` you can find simple Kubernetes cluster configuration, which includes 1 or 2 instances of `t3.large` type.
+
+```bash
+cortex cluster up cluster.yaml 
+```
+
+Be patient! It can take a while!
+
+For more information about cluster configuration look [here](https://docs.cortex.dev/clusters/management/create)
+
+## Run services
+
+Specify your docker images links in cortex.yaml.
+
+After that you can run this command:
+
+```bash
+cortex deploy cortex.yaml
+```
+
+## Executor
+
+0. Install requirements: `pip install -r requirements-executor.txt` 
+
+1. Get your api endpoint:
+    ```bash
+    cortex get multiarmed-bandit 
+    ```
+
+2. Place this url into `URL` variable in `executor.py`
+
+3. Get operator endpoint:
+    ```bash
+    cortex cluster info
+    ```
+
+4. Place this endpoint into `operator_endpoint` parameter in `executor.py`
+
+5. Run:
+    ```bash
+    python executor.py    
+    ```
+
+    ![](img/executor.gif)
