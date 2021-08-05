@@ -1,11 +1,30 @@
 # cortex-multiarmed-bandit
 
-Serving ML models in high-load manner with cortex and traffic splitter
+Serving ML models in a high-load manner with cortex and traffic splitter.
 
+With this template, you can deploy real-time recommender systems behind the multi-armed bandit and balance traffic. 
+No knowledge of Kubernetes or autoscaling is needed! It's all there out of the box.
+
+# Project description
+
+Here an example multi-armed bandit with two models behind: one return only 
+postirive random numbers, second – only negatives.
+
+Also simple `executor.py` provided. It allows you to execute requests to the models and provide some feedback on it. 
+
+![](img/executor.gif)
 
 # Step-by-step
 
+## 0. Setup AWS account and make
+
+Pls, make sure that you have AWS CLI installed. 
+
+For more information read [this](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
+
 ## 1. Install `cortex` 0.39.1 or greater
+
+![](https://camo.githubusercontent.com/a3ff7c310843424f737883e5f09cccd00f156fcc2f247b0abb438ea8c02b476c/68747470733a2f2f73332d75732d776573742d322e616d617a6f6e6177732e636f6d2f636f727465782d7075626c69632f6c6f676f2e706e67)
 
 ```bash
 # install the CLI
@@ -38,13 +57,9 @@ For this purpose we use [Docker's multi-stage builds](https://docs.docker.com/de
 
 This images use the base, but serves different models.
 
-For building Model A:
+For building models:
 ```bash
 docker build . --target model-a -t cortex-bandit:model-a
-```
-
-For building Model B:
-```bash
 docker build . --target model-b -t cortex-bandit:model-b
 ```
 
