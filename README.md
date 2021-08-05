@@ -14,15 +14,20 @@ Also simple `executor.py` provided. It allows you to execute requests to the mod
 
 ![](img/executor.gif)
 
-# Step-by-step
+# Before start
 
-## 0. Setup AWS account and make
+## 1. Clone this repo:
+    ```bash
+    git clone https://github.com/puhoshville/cortex-multiarmed-bandit.git
+    ```
+
+## 2. Setup AWS account and make
 
 Pls, make sure that you have AWS CLI installed. 
 
 For more information read [this](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
 
-## 1. Install `cortex` 0.39.1 or greater
+## 3. Install `cortex` 0.39.1 or greater
 
 ![](https://camo.githubusercontent.com/a3ff7c310843424f737883e5f09cccd00f156fcc2f247b0abb438ea8c02b476c/68747470733a2f2f73332d75732d776573742d322e616d617a6f6e6177732e636f6d2f636f727465782d7075626c69632f6c6f676f2e706e67)
 
@@ -35,24 +40,12 @@ pip install cortex
 
 ! More actual information you can find here: https://docs.cortex.dev
 
-## 2. Setup cluster 
-
-```bash
-cortex cluster up
-```
-
-## 3. Deploy models
-
-```bash
-cortex deploy --env aws
-```
-
-# Different models
+# Build and push images
 
 We have two separate files: `model_a.py` and `model_b.py`. Model A returns random positive numbers, Model B – negative.
 So, we always can identify the model – it will help us later.
  
-## Build model images
+## 1. Build model images
 
 For each model we have to create separate docker container. 
 For this purpose we use [Docker's multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/).
@@ -65,7 +58,7 @@ docker build . --target model-a -t cortex-bandit:model-a
 docker build . --target model-b -t cortex-bandit:model-b
 ```
 
-## Check images
+## 2. Check images
 
 To make sure image working correctly we can run it locally:
 ```bash
@@ -83,7 +76,7 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"msg": "hello world"}' l
 78
 ```
 
-## Push image
+## 3. Push image
 
 
 1. Make sure, that aws cli tool is installed
@@ -115,7 +108,7 @@ docker buildx build --platform linux/amd64  . --target model-a --push -t 3856265
 docker buildx build --platform linux/amd64  . --target model-b --push -t 385626522460.dkr.ecr.us-east-2.amazonaws.com/cortex-bandit:model-b
 ```
 
-## Run cluster
+# Run cluster
 
 In `cluster.yaml` you can find simple Kubernetes cluster configuration, which includes 1 or 2 instances of `t3.large` type.
 
@@ -127,7 +120,7 @@ Be patient! It can take a while!
 
 For more information about cluster configuration look [here](https://docs.cortex.dev/clusters/management/create)
 
-## Run services
+# Run services
 
 Specify your docker images links in cortex.yaml.
 
@@ -137,7 +130,7 @@ After that you can run this command:
 cortex deploy cortex.yaml
 ```
 
-## Executor
+# Executor
 
 0. Install requirements: `pip install -r requirements-executor.txt` 
 
