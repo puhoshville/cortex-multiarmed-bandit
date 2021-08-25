@@ -5,9 +5,12 @@ Serving ML models in a high-load manner with cortex and traffic splitter.
 With this template, you can deploy real-time recommender systems behind the multi-armed bandit and balance traffic. 
 No knowledge of Kubernetes or autoscaling is needed! It's all there out of the box.
 
+At the heart of this project is the open-source [Cortex project](https://www.cortex.dev) and its unique feature: [TrafficSplitter](https://docs.cortex.dev/workloads/realtime/traffic-splitter). You only need to prepare models, this project will do the rest. Cheers! 
+
+
 # Project description
 
-Here an example multi-armed bandit with two models behind: one return only 
+Here is an example multi-armed bandit with two models behind: one return only 
 postirive random numbers, second – only negatives.
 
 Also simple `executor.py` provided. It allows you to execute requests to the models and provide some feedback on it. 
